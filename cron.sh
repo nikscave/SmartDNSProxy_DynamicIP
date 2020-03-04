@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -e # exit script should anything error, mainly curl timeout
 CURL='/usr/bin/curl'
 RVMHTTP="--max-time 5 https://ifconfig.me" #timeouts after 5 seconds should the API not respond. Dont hit the service more than once per minute
 API="https://www.smartdnsproxy.com/api/IP/update/xxxxxxxxxxxx" #replace xxx with your API key from https://www.smartdnsproxy.com/MyAccount/API?afid=cfd2443ce6b0
