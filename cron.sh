@@ -1,15 +1,12 @@
 #!/bin/sh
 
 CURL='/usr/bin/curl'
-RVMHTTP="--max-time 5 https://ifconfig.me"
+RVMHTTP="--max-time 5 https://ifconfig.me" #timeouts after 5 seconds should the API not respond. Dont hit the service more than once per minute
 API="https://www.smartdnsproxy.com/api/IP/update/xxxxxxxxxxxx" #replace xxx with your API key from https://www.smartdnsproxy.com/MyAccount/API?afid=cfd2443ce6b0
-#current=$(</tmp/smartdns/current.txt)
 current=`cat /tmp/smartdns/current.txt`
 new="$($CURL $RVMHTTP)"
 echo "$new" > "/tmp/smartdns/new.txt"
 checkNew=`cat /tmp/smartdns/new.txt`
-#checkNew=$(</tmp/smartdns/current.txt)
-#echo $current;echo " - "; echo $checkNew;
 
 if [ $current == $checkNew ]
 then
@@ -17,5 +14,5 @@ then
 else
         #echo "different"
         cp /tmp/smartdns/new.txt /tmp/smartdns/current.txt
-        $CURL $API
+        $CURL $API #IP has changed in last 5 mins, update smartdnsproxy via API call
 fi
